@@ -3,7 +3,6 @@
  * ******************************/
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
 const env = require('dotenv');
 const cors = require('cors');
 
