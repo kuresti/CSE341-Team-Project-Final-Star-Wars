@@ -15,19 +15,10 @@ env.config()
 /* *******************************
  * Routes
  * *******************************/
-app.use(bodyParser.json());
-// Allow headers across sites
-app.use((req, res, next) => {
-    res.setHeader(
-        'Access-Control-Allow-Header',
-        'Origin, X-Requested-With, Content-Type, Accept, Z-key'
-    );
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    next();
-})
-app.use(cors({ methods: ['GET, POST, PUT, DELETE, OPTIONS']}));
-app.use(cors({ origin: '*'}));
-app.use('/', require('./routes/index'));
+app.use(cors())
+ .use(express.json())
+ .use(express.urlencoded({ extended: true }))
+ .use('/', require('./routes/index'));
 
 
 /* *******************************
