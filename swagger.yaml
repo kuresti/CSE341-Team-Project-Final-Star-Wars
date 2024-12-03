@@ -19,8 +19,8 @@ tags:
     description: Endpoints for Characters
   - name: Planets
     description: Endpoints for Planets
-  - name: Vechiles
-    description: Endpoints for Vechiles
+  - name: Vehicles
+    description: Endpoints for Vehicles
   - name: Ships
     description: Endpoints for Ships
 
