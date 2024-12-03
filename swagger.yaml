@@ -1,0 +1,312 @@
+openapi: 3.0.0
+info:
+  title: Star Wars API
+  description: API for CSE 341 Final Project.<br> [GitHub Repo](https://github.com/kuresti/CSE341-Team-Project-Final-Star-Wars)
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Development server
+  - url: https://<project-name>.onrender.com
+    description: Production server
+
+schemes:
+  - http
+  - https
+
+tags:
+  - name: Characters
+    description: Endpoints for Characters
+  - name: Planets
+    description: Endpoints for Planets
+  - name: Vechiles
+    description: Endpoints for Vechiles
+  - name: Ships
+    description: Endpoints for Ships
+
+paths:
+  /characters/:
+    get:
+      tags:
+        - Characters
+      description: Get a list of Star Wars Characters
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+    post:
+      tags:
+        - Characters
+      description: Add a new Star Wars Character
+      requestBody:
+        description: Character object to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Character'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Character'
+        required: true
+  /characters/{id}:
+    get:
+      tags:
+        - Characters
+      description: Get a list of Star Wars Characters
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+    post:
+      tags:
+        - Characters
+      description: Add a new Star Wars Character
+      requestBody:
+        description: Character object to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Character'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Character'
+        required: true
+    put:
+      tags:
+        - Characters
+      description: Update an existing Star Wars Character
+      requestBody:
+        description: Character object to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Character'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Character'
+        required: true
+            tags:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+        404:
+          description: Character not found
+    delete:
+      tags:
+        - Characters
+      description: Add a new Star Wars Character
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+        404:
+          description: Character not found
+  /characters/findByAlignment:
+    get:
+      tags:
+        - Characters
+      description: Get a list of Star Wars Characters by Alignment
+      parameters:
+        - name: alignment
+          in: query
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+  /characters/findByCategory:
+    get:
+      tags:
+        - Characters
+      description: Get a list of Star Wars Characters by Category
+      parameters:
+        - name: category
+          in: query
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+  /characters/findByName:
+    get:
+      tags:
+        - Characters
+      description: Get a list of Star Wars Characters by Name
+      parameters:
+        - name: name
+          in: query
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'                
+
+  /planet/:
+    get:
+      tags:
+        - Planets
+      description: Get a list of Star Wars Planets
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Planet'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Planet'
+  /vehicles/:
+    get:
+      tags:
+        - Vehicles
+      description: Get a list of Star Wars Vehicles
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vehicles'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vehicles'
+  /ships/:
+    get:
+      tags:
+        - Ships
+      description: Get a list of Star Wars Ships
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ships'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ships'
+
+components:
+  schemas:
+    Character:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Luke Skywalker
+        category:
+          type: array
+          items:
+            type: string
+          example: ['Human', 'Jedi']
+        alignment:
+          type: string
+          example: 'Light'
+        homeworld:
+          type: string
+          example: 'Tatooine'
+
+    Planet:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Tatooine
+        location:
+          type: string
+          example: Outer Rim
+
+    Vehicles:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Land Speeder
+        class:
+          type: string
+          example: Speeder
+
+    Ships:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Millennium Falcon
+        class:
+          type: string
+          example: Cargo Ship
