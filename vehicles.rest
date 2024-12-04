@@ -1,0 +1,40 @@
+### GET all vehicles
+GET http://localhost:3000/vehicles
+
+### GET vehicle by ID
+GET http://localhost:3000/vehicles/674faf72808a42aad57d6500
+
+### POST create new vehicle
+POST http://localhost:3000/vehicles HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Sand Crawler",
+    "model": "Digger Crawler",
+    "manufacturer": "Corellia Mining Corporation",
+    "cost_in_credits": "150000",
+    "length": "36.8",
+    "max_atmosphering_speed": "30",
+    "crew": "46",
+    "cargo_capacity": "50000",
+    "vehicle_class": "wheeled"
+}
+
+### PUT update vehicle by ID
+PUT http://localhost:3000/vehicles/674faf72808a42aad57d6500 HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Sand Crawler",
+    "model": "Digger Crawler",
+    "manufacturer": "Corellia Mining Corporation",
+    "cost_in_credits": "150000",
+    "length": "36.8",
+    "max_atmosphering_speed": "30",
+    "crew": "66",
+    "cargo_capacity": "50000",
+    "vehicle_class": "wheeled"
+}
+
+### DELETE vehicle by ID
+DELETE http://localhost:3000/vehicles/674fafdd808a42aad57d6502
