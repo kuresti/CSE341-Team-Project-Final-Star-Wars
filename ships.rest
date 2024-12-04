@@ -1,0 +1,57 @@
+### Get all ships
+GET http://localhost:3000/ships
+
+
+### Get array of ships by name
+GET http://localhost:3000/ships/search?name=wing HTTP/1.1
+content-type: application/json
+
+
+### Get array of ships by starship_class
+GET http://localhost:3000/ships/search?starship_class=fighter HTTP/1.1
+content-type: application/json
+
+
+### Get array of ships by name and starship_class
+GET http://localhost:3000/ships/search?name=wing&starship_class=fighter HTTP/1.1
+content-type: application/json
+
+
+### Get ship by id
+GET http://localhost:3000/ships/674f8f65c45fbc15885b99d8 HTTP/1.1
+
+
+### Add a new ship
+POST http://localhost:3000/ships HTTP/1.1
+content-type: application/json
+
+{
+    "name": "New Ship",
+    "model": "Model of ship",
+    "length": "12",
+    "crew": "10",
+    "passengers": "5",
+    "cargo_capacity": "200",
+    "starship_class": "cargo", 
+    "hyperdrive_rating": "1.0"
+}
+
+
+### Update a ship by Id
+PUT http://localhost:3000/ships/674f8f65c45fbc15885b99d8 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Changed Name",
+    "model": "Model of ship",
+    "length": "12",
+    "crew": "10",
+    "passengers": "5",
+    "cargo_capacity": "200",
+    "starship_class": "cargo", 
+    "hyperdrive_rating": "1.0"
+}
+
+
+###Delete ship by Id
+DELETE http://localhost:3000/ships/674f8f65c45fbc15885b99d8 HTTP/1.1
