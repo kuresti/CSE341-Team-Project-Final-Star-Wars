@@ -11,7 +11,6 @@ const router = express.Router();
 /* ******************************
  * Use route for Star Wars Vehicles
  * ******************************/
-router.use('/vehicles', require('./vehicles.js'));
 router.use('/vehicles', require('./vehicles'));
 
 /* ******************************
