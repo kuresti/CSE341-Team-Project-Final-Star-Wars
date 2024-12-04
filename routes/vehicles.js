@@ -11,7 +11,11 @@ const { handleErrors } = require('../middleware/error-handling');
  * **********************************/
 router.get('/', vehiclesCont.getAll);
 
+router.get('/search', vehiclesCont.getVehicleByAttribute);
+
 router.get('/:id', vehiclesCont.getSingle);
+
+
 
 /* **********************************
  * POST Routes
