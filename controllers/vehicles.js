@@ -5,13 +5,13 @@ const mongodb = require('../config/db');
 const ObjectId = require('mongodb').ObjectId;
 
 /* ******************************
- * Get all vehicles
+ * Get all vehicle
  * ******************************/
 const getAll = async (req, res) => {
-  const result = await mongodb.getDatabase().db().collection('vehicles').find();
-  result.toArray().then((vehicles) => {
+  const result = await mongodb.getDatabase().db().collection('vehicle').find();
+  result.toArray().then((vehicle) => {
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(vehicles);
+    res.status(200).json(vehicle);
   });
 };
 
@@ -23,11 +23,11 @@ const getSingle = async (req, res) => {
   const result = await mongodb
     .getDatabase()
     .db()
-    .collection('vehicles')
+    .collection('vehicle')
     .find({ _id: vehicleId });
-  result.toArray().then((vehicles) => {
+  result.toArray().then((vehicle) => {
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(vehicles[0]);
+    res.status(200).json(vehicle[0]);
   });
 };
 
@@ -50,7 +50,7 @@ const createNewVehicle = async (req, res) => {
   const response = await mongodb
     .getDatabase()
     .db()
-    .collection('vehicles')
+    .collection('vehicle')
     .insertOne(newVehicle);
   if (response.acknowledged) {
     res.status(204).send();
@@ -80,7 +80,7 @@ const updateVehicle = async (req, res) => {
   const response = await mongodb
     .getDatabase()
     .db()
-    .collection('vehicles')
+    .collection('vehicle')
     .replaceOne({ _id: vehicleId }, vehicle);
   if (response) {
     res.status(204).send();
@@ -105,7 +105,7 @@ const deleteVehicle = async (req, res) => {
     const response = await mongodb
       .getDatabase()
       .db()
-      .collection('vehicles')
+      .collection('vehicle')
       .deleteOne({ _id: new ObjectId(vehicleId) });
     if (response.deletedCount > 0) {
       res.status(204).send();
