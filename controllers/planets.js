@@ -1,8 +1,13 @@
 const mongodb = require('../config/db');
 const ObjectId = require('mongodb').ObjectId;
 
+/*****************************
+ * Returns all planets
+ *****************************/
 const getAllPlanets = async (req, res) => {
   //#swagger.tags=['Planets']
+  //#swagger.summary='Retrieve all planets'
+  //#swagger.description ='Fetches a list of all planets from the database and returns them as a JSON array.'
 
   const result = await mongodb.getDatabase().db().collection('planet').find();
 
@@ -12,8 +17,13 @@ const getAllPlanets = async (req, res) => {
   });
 };
 
+/***********************************
+ * Returns a specific planet by ID
+ **********************************/
 const getPlanet = async (req, res) => {
   //#swagger.tags=['Planets']
+  //#swagger.summary='Retrieve a planet by ID'
+  //#swagger.description ='Fetches a specific planet from the database using its unique ID and returns it as a JSON object.'
 
   const planetId = new ObjectId(req.params.id);
 
@@ -29,8 +39,13 @@ const getPlanet = async (req, res) => {
   });
 };
 
+/*****************
+ * Adds a planet
+ *****************/
 const addPlanet = async (req, res) => {
   //#swagger.tags=['Planets']
+  //#swagger.summary='Add a new planet'
+  //#swagger.description ='Inserts a new planet into the database using the data provided in the request body.'
 
   const planet = {
     name: req.body.name,
@@ -58,8 +73,13 @@ const addPlanet = async (req, res) => {
   }
 };
 
+/**********************
+ * Edit a planet by ID
+ **********************/
 const editPlanet = async (req, res) => {
   //#swagger.tags=['Planets']
+  //#swagger.summary='Edit a planet by ID'
+  //#swagger.description ='Updates the details of an existing planet in the database using its unique ID and the data provided in the request body.'
 
   const planet = {
     name: req.body.name,
@@ -89,8 +109,13 @@ const editPlanet = async (req, res) => {
   }
 };
 
+/*****************************
+ * Deletes a planet by ID
+ *****************************/
 const deletePlanet = async (req, res) => {
   //#swagger.tags=['Planets']
+  //#swagger.summary='Delete a planet by ID'
+  //#swagger.description ='Removes a planet from the database using its unique ID.'
 
   const planetId = new ObjectId(req.params.id);
 
@@ -109,10 +134,36 @@ const deletePlanet = async (req, res) => {
   }
 };
 
+/********************************
+ * Gets planets based on location
+ ********************************/
+const getPlanetByLocation = async (req, res) => {
+  //#swagger.tags=['Planets']
+  //#swagger.summary='Retrieve planets by location'
+  //#swagger.description ='Fetches planets from the database that match the specified location, using a search.'
+
+  const { location } = req.query;
+
+  const filter = {
+    location: { $regex: location, $options: 'i' }
+  };
+
+  const result = await mongodb
+    .getDatabase()
+    .db()
+    .collection('planet')
+    .find(filter);
+  result.toArray().then((planets) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(planets);
+  });
+};
+
 module.exports = {
   getAllPlanets,
   getPlanet,
   addPlanet,
   editPlanet,
-  deletePlanet
+  deletePlanet,
+  getPlanetByLocation
 };
