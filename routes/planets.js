@@ -9,6 +9,8 @@ router.get('/', planetsController.getAllPlanets);
 
 router.get('/:id', planetsController.getPlanet);
 
+router.get('/location', planetsController.getPlanetByLocation);
+
 router.post('/', planetsController.addPlanet);
 
 router.put('/:id', planetsController.editPlanet);
