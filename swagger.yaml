@@ -1,0 +1,669 @@
+openapi: 3.0.0
+info:
+  title: Star Wars API
+  description: API for CSE 341 Final Project.<br> [GitHub Repo](https://github.com/kuresti/CSE341-Team-Project-Final-Star-Wars)
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Development server
+  - url: https://cse341-team-project-final-star-wars.onrender.com
+    description: Production server
+
+schemes:
+  - http
+  - https
+
+tags:
+  - name: Characters
+    description: Endpoints for Characters
+  - name: Planets
+    description: Endpoints for Planets
+  - name: Vehicles
+    description: Endpoints for Vehicles
+  - name: Ships
+    description: Endpoints for Ships
+
+paths:
+  /characters/:
+    get:
+      tags:
+        - Characters
+      description: Get a list of Star Wars Characters
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+    post:
+      tags:
+        - Characters
+      description: Add a new Star Wars Character
+      requestBody:
+        description: Character object to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Character'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Character'
+        required: true
+  /characters/{id}:
+    get:
+      tags:
+        - Characters
+      description: Get a list of Star Wars Characters
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+    post:
+      tags:
+        - Characters
+      description: Add a new Star Wars Character
+      requestBody:
+        description: Character object to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Character'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Character'
+        required: true
+    put:
+      tags:
+        - Characters
+      description: Update an existing Star Wars Character
+      requestBody:
+        description: Character object to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Character'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Character'
+        required: true
+            tags:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+        404:
+          description: Character not found
+    delete:
+      tags:
+        - Characters
+      description: Add a new Star Wars Character
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+        404:
+          description: Character not found
+  /characters/findByAlignment:
+    get:
+      tags:
+        - Characters
+      description: Get a list of Star Wars Characters by Alignment
+      parameters:
+        - name: alignment
+          in: query
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+  /characters/findByCategory:
+    get:
+      tags:
+        - Characters
+      description: Get a list of Star Wars Characters by Category
+      parameters:
+        - name: category
+          in: query
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+  /characters/findByName:
+    get:
+      tags:
+        - Characters
+      description: Get a list of Star Wars Characters by Name
+      parameters:
+        - name: name
+          in: query
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'                
+
+  /planets/:
+    get:
+      tags:
+        - Planets
+      description: Fetches a list of all planets from the database and returns them as a JSON array
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Planet'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Planet'
+    post:
+        tags:
+          - Planets
+        description: Inserts a new planet into the database using the data provided in the request body
+        requestBody:
+          description: Planet object to add
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Planet'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Planet'
+          required: true
+        responses:
+          204:
+            description: OK
+          500:
+            description: Some error occurred while adding a new planet
+  /planets/{id}:
+    get:
+      tags:
+        - Planets
+      description: Fetches a specific planet from the database using its unique ID and returns it as a JSON object
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Planet'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Planet'
+    put:
+      tags:
+        - Planets
+      description: Updates the details of an existing planet in the database using its unique ID and the data provided in the request body
+      requestBody:
+        description: Planet object to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Planet'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Planet'
+        required: true
+      responses:
+        204:
+          description: OK
+        500:
+          description: Some error occurred while updating a new planet
+    delete:
+      tags:
+        - Planets
+      description: Removes a planet from the database using its unique ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        204:
+          description: OK
+        500:
+          description: Some error occurred while deleting a new planet
+  /planets/location/:
+    get:
+      tags:
+        - Planets
+      description: Get a list of Star Wars Planets
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Planet'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Planet'                  
+
+  /vehicles/:
+    get:
+      tags:
+        - Vehicles
+      description: Fetches all vehicles currently in the database
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vehicles'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vehicles'
+    post:
+        tags:
+          - Vehicles
+        description: Adds a new vehicle with attributes to the database
+        requestBody:
+          description: Vehicle object to add
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicles'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Vehicles'
+          required: true
+        responses:
+          204:
+            description: OK
+          500:
+            description: An error occurred while creating a new vehicle
+  /vehicles/{id}:
+    get:
+      tags:
+        - Vehicles
+      description: Fetches a single vehicle by vehicle_id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vehicles'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vehicles'
+    put:
+      tags:
+        - Vehicles
+      description: Updates vehicle and its attributes by the vehicle id
+      requestBody:
+        description: Vehicle object to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehicles'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Vehicles'
+        required: true
+      responses:
+        204:
+          description: OK
+        500:
+          description: An error occurred while updating the vehicle
+    delete:
+      tags:
+        - Vehicles
+      description: Removes a vehicle from the database using its unique ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        204:
+          description: OK
+        400:
+          description: Vehicle not found
+        500:
+          description: An error occurred while attempting to delete the vehicle
+  /vehicles/search/:
+    get:
+      tags:
+        - Vehicles
+      description: Fetches vehicles from the database using attribute names as search criteria
+      parameters:
+        - name: name
+          in: query
+          required: false
+          type: string
+        - name: model
+          in: query
+          required: false
+          type: string
+        - name: manufacturer
+          in: query
+          required: false
+          type: string
+        - name: vehicle_class
+          in: query
+          required: false
+          type: string
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vehicles'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vehicles'
+        500:
+          description: An error occurred while attempting to delete the vehicle
+
+
+  /ships/:
+    get:
+      tags:
+        - Ships
+      description: Fetches all ships from the database
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ships'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ships'
+    post:
+        tags:
+          - Ships
+        description: Adds a new ship with attributes to the database
+        requestBody:
+          description: Ship object to add
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ships'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Ships'
+          required: true
+        responses:
+          204:
+            description: OK
+          500:
+            description: An error occurred while creating a new ship
+  /ships/{id}:
+    get:
+      tags:
+        - Ships
+      description: Fetches a single ship by ship_id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ships'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ships'
+    put:
+      tags:
+        - Ships
+      description: Updates ship and its attributes by the ship id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      requestBody:
+        description: Ship object to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ships'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Ships'
+        required: true
+      responses:
+        204:
+          description: OK
+        400:
+          description: Must us a valid id to find ship
+        500:
+          description: An error occurred while updating the ship
+    delete:
+      tags:
+        - Ships
+      description: Delete a ship from the collection
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        204:
+          description: OK
+        400:
+          description: Must us a valid id to find ship
+        500:
+          description: An error occurred while deleting the ship
+
+components:
+  schemas:
+    Character:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Luke Skywalker
+        category:
+          type: array
+          items:
+            type: string
+          example: ['Human', 'Jedi']
+        alignment:
+          type: string
+          example: 'Light'
+        homeworld:
+          type: string
+          example: 'Tatooine'
+
+    Planet:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Tatooine
+        is_inhabited:
+          type: boolean
+          example: true
+        climate:
+          type: string
+          example: Desert
+        terrain:
+          type: string
+          example: Desert
+        diameter:
+          type: number
+          example: 10465
+        rotation_period:
+          type: number
+          example: 23
+        orbital_period:
+          type: number
+          example: 304
+        location:
+          type: string
+          example: Outer Rim Territories
+
+    Vehicles:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "X-wing"
+        model:
+          type: string
+          example: "T-65B"
+        manufacturer:
+          type: string
+          example: "Incom Corporation"
+        cost_in_credits:
+          type: number
+          example: 149999
+        length:
+          type: number
+          example: 12.5
+        max_atmosphering_speed:
+          type: number
+          example: 1050
+        crew:
+          type: string
+          example: "1"
+        cargo_capacity:
+          type: number
+          example: 110
+        vehicle_class:
+          type: string
+          example: "Starfighter"
+
+    Ships:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Millennium Falcon"
+        model:
+          type: string
+          example: "YT-1300"
+        length:
+          type: number
+          example: 34.75
+        crew:
+          type: string
+          example: "4"
+        passengers:
+          type: number
+          example: 6
+        cargo_capacity:
+          type: number
+          example: 100000
+        starship_class:
+          type: string
+          example: "Light Freighter"
+        hyperdrive_rating:
+          type: number
+          example: 0.5
