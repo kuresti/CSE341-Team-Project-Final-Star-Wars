@@ -1,6 +1,9 @@
 const mongodb = require('../config/db');
 const ObjectId = require('mongodb').ObjectId;
 
+/* ******************************
+ * Return an array of all the ships
+ * ******************************/
 const getAll = async (req, res) => {
   //#swagger.tags=['Ships']
   //#swagger.summary='Get array of ships'
@@ -16,29 +19,11 @@ const getAll = async (req, res) => {
   res.status(200).json(result);
 };
 
-// const getListByNameSearch = async (req, res) => {
-//   //#swagger.tags=['Ships']
-//   //#swagger.summary='Search for ships by name'
-//   //#swagger.description = 'Returns an array of ships that contain the search string in their name'
-
-//   const { name } = req.query;
-
-//   if (!name) {
-//     return res
-//       .status(400)
-//       .json({ error: 'Query parameter "name" is required.' });
-//   }
-
-//   const results = await mongodb
-//     .getDatabase()
-//     .db()
-//     .collection('ship')
-//     .find({ name: { $regex: name, $options: 'i' } })
-//     .toArray();
-//   res.setHeader('Content-Type', 'application/json');
-//   res.status(200).json(results);
-// };
-
+/* ******************************
+ * Return an array of all the ships where the search string exists in the given parameter
+ * Can search by name and/or starship_class
+ * If both searches are null it will return all ships
+ * ******************************/
 const getListBySearch = async (req, res) => {
   //#swagger.tags=['Ships']
   //#swagger.summary='Search for ships by name or starship class'
@@ -55,12 +40,6 @@ const getListBySearch = async (req, res) => {
     filter.starship_class = { $regex: starship_class, $options: 'i' };
   }
 
-  // if (!starship_class) {
-  //   return res
-  //     .status(400)
-  //     .json({ error: 'Query parameter "starship_class" is required.' });
-  // }
-
   const results = await mongodb
     .getDatabase()
     .db()
@@ -71,6 +50,9 @@ const getListBySearch = async (req, res) => {
   res.status(200).json(results);
 };
 
+/* ******************************
+ * Return a single ship by id
+ * ******************************/
 const getSingle = async (req, res) => {
   //#swagger.tags=['Ships']
   //#swagger.summary='Get ship by id'
@@ -93,6 +75,9 @@ const getSingle = async (req, res) => {
   res.status(200).json(result[0]);
 };
 
+/* ******************************
+ * Add a ship to the collection
+ * ******************************/
 const addShip = async (req, res) => {
   //#swagger.tags=['Ships']
   //#swagger.summary='Add a ship'
@@ -124,6 +109,9 @@ const addShip = async (req, res) => {
   }
 };
 
+/* ******************************
+ * Update a ship by id
+ * ******************************/
 const updateShip = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
     //check if valid id format
@@ -163,6 +151,9 @@ const updateShip = async (req, res) => {
   }
 };
 
+/* ******************************
+ * Delete a ship by id
+ * ******************************/
 const deleteShip = async (req, res) => {
   //#swagger.tags=['Ships']
   //#swagger.summary='Delete a ship by Id'
@@ -192,7 +183,6 @@ const deleteShip = async (req, res) => {
 
 module.exports = {
   getAll,
-  // getListByNameSearch,
   getListBySearch,
   getSingle,
   addShip,
