@@ -9,10 +9,10 @@ router.get('/', planetsController.getAllPlanets);
 
 router.get('/:id', planetsController.getPlanet);
 
-router.post('/', planetsController);
+router.post('/', planetsController.addPlanet);
 
-router.put('/:id', planetsController);
+router.put('/:id', planetsController.editPlanet);
 
-router.delete('/:id', planetsController);
+router.delete('/:id', planetsController.deletePlanet);
 
 module.exports = router;
