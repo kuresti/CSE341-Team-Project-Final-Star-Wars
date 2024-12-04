@@ -2,7 +2,7 @@
  * Required Resources
  * ******************************/
 const express = require('express');
-const router = require('express').Router();
+const router = express.Router();
 
 /* ******************************
  * Routes
@@ -17,5 +17,10 @@ router.use('/vehicles', require('./vehicles'));
  * Use route for Star Wars Planets
  * ******************************/
 router.use('/planets', require('./planets'));
+
+/* ******************************
+ * Use route for Star Wars Ships
+ * ******************************/
+router.use('/ships', require('./ships'));
 
 module.exports = router;
