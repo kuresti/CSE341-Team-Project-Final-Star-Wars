@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const shipController = require('../controllers/ships');
+const { handleErrors } = require('../middleware/error-handling');
 
 /* ******************************
  * Return an array of all the ships
@@ -33,5 +34,7 @@ router.put('/:id', shipController.updateShip);
  * Delete a ship by id
  * ******************************/
 router.delete('/:id', shipController.deleteShip);
+
+router.use(handleErrors);
 
 module.exports = router;
