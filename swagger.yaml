@@ -302,6 +302,11 @@ paths:
     get:
       tags:
         - Planets
+      parameters:
+        - name: location
+          in: query
+          required: true
+          type: string
       description: Get a list of Star Wars Planets
       responses:
         200:
@@ -476,24 +481,24 @@ paths:
                 items:
                   $ref: '#/components/schemas/Ships'
     post:
-        tags:
-          - Ships
-        description: Adds a new ship with attributes to the database
-        requestBody:
-          description: Ship object to add
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Ships'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Ships'
-          required: true
-        responses:
-          204:
-            description: OK
-          500:
-            description: An error occurred while creating a new ship
+      tags:
+        - Ships
+      description: Adds a new ship with attributes to the database
+      requestBody:
+        description: Ship object to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ships'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Ships'
+        required: true
+      responses:
+        204:
+          description: OK
+        500:
+          description: An error occurred while creating a new ship
   /ships/{id}:
     get:
       tags:
@@ -560,6 +565,36 @@ paths:
           description: Must us a valid id to find ship
         500:
           description: An error occurred while deleting the ship
+  /ships/search/:
+    get:
+      tags:
+        - Ships
+      description: Fetches vehicles from the database using attribute names as search criteria
+      parameters:
+        - name: name
+          in: query
+          required: false
+          type: string
+        - name: starship_class
+          in: query
+          required: false
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ships'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ships'
+
+
 
 components:
   schemas:
