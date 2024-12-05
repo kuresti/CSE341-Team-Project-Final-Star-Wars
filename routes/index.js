@@ -9,6 +9,11 @@ const router = express.Router();
  * ******************************/
 
 /* ******************************
+ * Use route for Star Wars Characters
+ * ******************************/
+router.use('/characters', require('./characters'));
+
+/* ******************************
  * Use route for Star Wars Vehicles
  * ******************************/
 router.use('/vehicles', require('./vehicles'));

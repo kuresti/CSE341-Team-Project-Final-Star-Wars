@@ -1,0 +1,61 @@
+###GET all characters
+GET http://localhost:3000/characters HTTP/1.1
+Content-Type: application/json
+
+###GET a specific character
+GET http://localhost:3000/characters/6750f1902db3dac579f4e81b HTTP/1.1
+Content-Type: application/json
+
+###GET a specific character by name
+GET http://localhost:3000/characters/findByName?name=luke HTTP/1.1
+Content-Type: application/json
+
+###GET a specific character by alignment
+GET http://localhost:3000/characters/findByAlignment?alignment=light HTTP/1.1
+Content-Type: application/json
+
+###GET a specific character by category
+GET http://localhost:3000/characters/findByCategory?category=rebel HTTP/1.1
+Content-Type: application/json
+
+###POST add a specific character
+POST http://localhost:3000/characters/ HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Obi-Wan Kenobi",
+  "alignment": "Light",
+  "category": ["Human", "Jedi"],
+  "homeworld": "Stewjon",
+  "vehicles": [
+    "Tribubble bongo"
+  ],
+  "ships": [
+    "Jedi starfighter",
+    "Trade Federation cruiser",
+    "Naboo star skiff",
+    "Jedi Interceptor"
+  ]
+}
+
+###PUT update a specific character
+PUT http://localhost:3000/characters/6750f69a6cd30f87804244c2 HTTP/1.1
+Content-Type: application/json
+
+{
+  "_id": "6750e4498152ae12e313a39d",
+  "name": "Luke Skywalker",
+  "alignment": "Light",
+  "category": ["Jedi", "Rebel", "Human"],
+  "homeworld": "Tatooine",
+  "vehicles": [
+      "Landspeeder"
+  ],
+  "ships": [
+      "X-wing"
+  ]
+}
+
+###DELETE a specific character
+DELETE http://localhost:3000/characters/6750f69a6cd30f87804244c2 HTTP/1.1
+Content-Type: application/json
