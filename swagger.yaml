@@ -58,11 +58,21 @@ paths:
             schema:
               $ref: '#/components/schemas/Character'
         required: true
+      responses:
+        204:
+          description: No Content
+        500:
+          description: An error occurred while creating the character
   /characters/{id}:
     get:
       tags:
         - Characters
       description: Get a list of Star Wars Characters
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
       responses:
         200:
           description: OK
@@ -77,20 +87,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Character'
-    post:
-      tags:
-        - Characters
-      description: Add a new Star Wars Character
-      requestBody:
-        description: Character object to add
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Character'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Character'
-        required: true
+        404:
+          description: Character not found
+        500:
+          description: An error occurred while retrieving characters
     put:
       tags:
         - Characters
@@ -112,10 +112,12 @@ paths:
           required: true
           type: string
       responses:
-        200:
-          description: OK
+        204:
+          description: No Content
         404:
           description: Character not found
+        500:
+          description: An error occurred while updating the character
     delete:
       tags:
         - Characters
@@ -126,10 +128,12 @@ paths:
           required: true
           type: string
       responses:
-        200:
-          description: OK
+        204:
+          description: No Content
         404:
           description: Character not found
+        500:
+          description: An error occurred while deleting the character
   /characters/findByAlignment:
     get:
       tags:
@@ -154,6 +158,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Character'
+        404:
+          description: Character not found
+        500: 
+          description: An error occurred while retrieving characters
   /characters/findByCategory:
     get:
       tags:
@@ -178,6 +186,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Character'
+        404:
+          description: Character not found
+        500: 
+          description: An error occurred while retrieving characters
   /characters/findByName:
     get:
       tags:
@@ -201,7 +213,12 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Character'                
+                  $ref: '#/components/schemas/Character'     
+        404:
+          description: Character not found
+        500: 
+          description: An error occurred while retrieving characters           
+
 
   /planets/:
     get:
@@ -238,7 +255,7 @@ paths:
           required: true
         responses:
           204:
-            description: OK
+            description: No Content
           500:
             description: Some error occurred while adding a new planet
   /planets/{id}:
@@ -281,7 +298,7 @@ paths:
         required: true
       responses:
         204:
-          description: OK
+          description: No Content
         500:
           description: Some error occurred while updating a new planet
     delete:
@@ -295,7 +312,7 @@ paths:
           type: string
       responses:
         204:
-          description: OK
+          description: No Content
         500:
           description: Some error occurred while deleting a new planet
   /planets/location/:
@@ -322,6 +339,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Planet'                  
+
 
   /vehicles/:
     get:
@@ -401,9 +419,10 @@ paths:
         required: true
       responses:
         204:
-          description: OK
+          description: No Content
         500:
           description: An error occurred while updating the vehicle
+    
     delete:
       tags:
         - Vehicles
@@ -415,7 +434,7 @@ paths:
           type: string
       responses:
         204:
-          description: OK
+          description: No Content
         400:
           description: Vehicle not found
         500:
@@ -495,10 +514,10 @@ paths:
               $ref: '#/components/schemas/Ships'
         required: true
       responses:
-        204:
-          description: OK
+        201:
+          description: Acknowledged
         500:
-          description: An error occurred while creating a new ship
+          description: An error occurred while adding the ship
   /ships/{id}:
     get:
       tags:
@@ -523,6 +542,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Ships'
+        400:
+          description: Must us a valid id to find ship
     put:
       tags:
         - Ships
@@ -544,7 +565,7 @@ paths:
         required: true
       responses:
         204:
-          description: OK
+          description: No Content
         400:
           description: Must us a valid id to find ship
         500:
@@ -560,7 +581,7 @@ paths:
           type: string
       responses:
         204:
-          description: OK
+          description: No Content
         400:
           description: Must us a valid id to find ship
         500:
@@ -604,18 +625,27 @@ components:
         name:
           type: string
           example: Luke Skywalker
+        alignment:
+          type: string
+          example: Light
         category:
           type: array
           items:
             type: string
-          example: ['Human', 'Jedi']
-        alignment:
-          type: string
-          example: 'Light'
+          example: [Human, Jedi]
         homeworld:
           type: string
-          example: 'Tatooine'
-
+          example: Tatooine
+        vehicles:
+          type: array
+          items:
+            type: string
+          example: ["Landspeeder"]
+        ships:
+          type: array
+          items:
+            type: string
+          example: ["X-wing"]
     Planet:
       type: object
       properties:
