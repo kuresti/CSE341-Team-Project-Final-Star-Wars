@@ -7,6 +7,16 @@ const env = require('dotenv');
 const cors = require('cors');
 const mongodb = require('./config/db');
 
+// Listen for unhandled promise rejections and throw an error to ensure they are caught during development.
+process.on('unhandledRejection', (error) => {
+  throw error;
+});
+
+// Listen for uncaught exceptions and log the error details.
+process.on('uncaughtException', (error) => {
+  console.log(error);
+});
+
 /* *******************************
  * DotEnv configuration
  * *******************************/
@@ -20,7 +30,6 @@ const YAML = require('yamljs');
 const swaggerDocument = YAML.load('./swagger.yaml');
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 
 /* *******************************
  * Routes
