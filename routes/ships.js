@@ -3,6 +3,10 @@ const router = express.Router();
 const shipController = require('../controllers/ships');
 const { handleErrors } = require('../middleware/error-handling');
 const { isAuthenticated } = require('../middleware/authenticate');
+const {
+  shipValidationRules,
+  validate
+} = require('../validation/shipValidation');
 
 /* ******************************
  * Return an array of all the ships
@@ -24,12 +28,24 @@ router.get('/:id', shipController.getSingle);
 /* ******************************
  * Add a ship to the collection
  * ******************************/
-router.post('/', isAuthenticated, shipController.addShip);
+router.post(
+  '/',
+  isAuthenticated,
+  shipValidationRules(),
+  validate,
+  shipController.addShip
+);
 
 /* ******************************
  * Update a ship by id
  * ******************************/
-router.put('/:id', isAuthenticated, shipController.updateShip);
+router.put(
+  '/:id',
+  isAuthenticated,
+  shipValidationRules(),
+  validate,
+  shipController.updateShip
+);
 
 /* ******************************
  * Delete a ship by id

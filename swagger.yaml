@@ -721,8 +721,8 @@ components:
           type: string
           example: "4"
         passengers:
-          type: number
-          example: 6
+          type: string
+          example: "6"
         cargo_capacity:
           type: number
           example: 100000
