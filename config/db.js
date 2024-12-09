@@ -10,20 +10,21 @@ let database;
 /***************************************
  * Initializes the database connection
  ***************************************/
-const initDb = (callback) => {
+const initDb = async (callback) => {
   if (database) {
     console.log('Database is already initialized');
     return callback(null, database);
   }
 
-  MongoClient.connect(process.env.MONGO_URL)
-    .then((client) => {
-      database = client;
-      callback(null, database);
-    })
-    .catch((err) => {
-      callback(err);
-    });
+  try {
+    const client = await MongoClient.connect(process.env.MONGO_URL);
+    database = client;
+    callback(null, database)
+
+  } catch (err) {
+    callback(err)
+  }
+
 };
 
 /*************************************

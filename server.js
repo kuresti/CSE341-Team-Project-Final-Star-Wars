@@ -57,12 +57,16 @@ const port = process.env.PORT || 3000;
 /**
  * Mongodb initialization
  */
-mongodb.initDb((err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    app.listen(port, () => {
-      console.log(`Database is listening and node running on port ${port}`);
-    });
-  }
-});
+(async () => {
+  await mongodb.initDb((err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      app.listen(port, () => {
+        console.log(`Database is listening and node running on port ${port}`);
+      });
+    }
+  });
+})();
+
+module.exports = app;
