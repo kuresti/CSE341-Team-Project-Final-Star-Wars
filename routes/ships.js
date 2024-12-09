@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const shipController = require('../controllers/ships');
 const { handleErrors } = require('../middleware/error-handling');
+const { isAuthenticated } = require('../middleware/authenticate');
 
 /* ******************************
  * Return an array of all the ships
@@ -23,17 +24,17 @@ router.get('/:id', shipController.getSingle);
 /* ******************************
  * Add a ship to the collection
  * ******************************/
-router.post('/', shipController.addShip);
+router.post('/', isAuthenticated, shipController.addShip);
 
 /* ******************************
  * Update a ship by id
  * ******************************/
-router.put('/:id', shipController.updateShip);
+router.put('/:id', isAuthenticated, shipController.updateShip);
 
 /* ******************************
  * Delete a ship by id
  * ******************************/
-router.delete('/:id', shipController.deleteShip);
+router.delete('/:id', isAuthenticated, shipController.deleteShip);
 
 router.use(handleErrors);
 

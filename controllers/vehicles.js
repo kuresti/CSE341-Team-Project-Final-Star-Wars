@@ -73,12 +73,10 @@ const getVehicleByAttribute = async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json(result);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: 'An error occurred while fetching vehicles',
-        details: error.message
-      });
+    res.status(500).json({
+      error: 'An error occurred while fetching vehicles',
+      details: error.message
+    });
   }
 };
 

@@ -15,8 +15,6 @@ router.get('/search', vehiclesCont.getVehicleByAttribute);
 
 router.get('/:id', vehiclesCont.getSingle);
 
-
-
 /* **********************************
  * POST Routes
  * **********************************/
