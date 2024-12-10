@@ -99,7 +99,7 @@ app.get(
 app.use((err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.message = err.message || 'Internal Server Error';
-  res.status(err.statusCode).json({});
+  res.status(err.statusCode).json(`${err.statusCode}: ${err.message}`);
 });
 
 /* ********************************
