@@ -7,9 +7,9 @@ const planetsController = require('../controllers/planets');
 
 router.get('/', planetsController.getAllPlanets);
 
-router.get('/:id', planetsController.getPlanet);
-
 router.get('/location', planetsController.getPlanetByLocation);
+
+router.get('/:id', planetsController.getPlanet);
 
 router.post('/', planetsController.addPlanet);
 

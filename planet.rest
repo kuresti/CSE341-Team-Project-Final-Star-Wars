@@ -6,29 +6,45 @@ GET http://localhost:3000/planets HTTP/1.1
 Content-Type: application/json
 
 ###GET a specific planet
-GET http://localhost:3000/planets/ HTTP/1.1
+GET http://localhost:3000/planets/674fae819baa535b0d51e796 HTTP/1.1
 Content-Type: application/json
 
-###GET a specific planet
-GET http://localhost:3000/planets/location HTTP/1.1
+###GET planets by location
+GET http://localhost:3000/planets/?location=Outer%20Rim HTTP/1.1
 Content-Type: application/json
 
 
 ###POST add a specific planet
 POST http://localhost:3000/planets HTTP/1.1
 Content-Type: application/json
-{
 
+{
+  "name": "earth",
+  "is_inhabited": false,
+  "climate": "Temperate",
+  "terrain": "Grasslands, Mountains",
+  "diameter": 12500,
+  "rotation_period": 24,
+  "orbital_period": 368,
+  "location": "Outer Rim"
 }
 
 ###PUT update a specific planet
-PUT http://localhost:3000/planets/ HTTP/1.1
+PUT http://localhost:3000/planets/67588f8a72c536d357a34b0f HTTP/1.1
 Content-Type: application/json
-{
 
+{
+    "name": "earth",
+    "is_inhabited": false,
+    "climate": "Temperate",
+    "terrain": "Grasslands, Mountains",
+    "diameter": 12500,
+    "rotation_period": 24,
+    "orbital_period": 365,
+    "location": "Outer Rim"
 }
 
 ###DELETE a specific planet
-DELETE http://localhost:3000/planets/ HTTP/1.1
+DELETE http://localhost:3000/planets/67588f8a72c536d357a34b0f HTTP/1.1
 Content-Type: application/json
 
