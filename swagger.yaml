@@ -543,7 +543,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Ships'
         400:
-          description: Must us a valid id to find ship
+          description: Must use a valid id to find ship
     put:
       tags:
         - Ships
@@ -567,7 +567,7 @@ paths:
         204:
           description: No Content
         400:
-          description: Must us a valid id to find ship
+          description: Must use a valid id to find ship
         500:
           description: An error occurred while updating the ship
     delete:
@@ -583,7 +583,7 @@ paths:
         204:
           description: No Content
         400:
-          description: Must us a valid id to find ship
+          description: Must use a valid id to find ship
         500:
           description: An error occurred while deleting the ship
   /ships/search/:
@@ -721,8 +721,8 @@ components:
           type: string
           example: "4"
         passengers:
-          type: number
-          example: 6
+          type: string
+          example: "6"
         cargo_capacity:
           type: number
           example: 100000

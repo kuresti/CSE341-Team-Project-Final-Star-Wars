@@ -6,6 +6,9 @@ const app = express();
 const env = require('dotenv');
 const cors = require('cors');
 const mongodb = require('./config/db');
+const passport = require('passport');
+const session = require('express-session');
+const GitHubStrategy = require('passport-github2').Strategy;
 
 // Listen for unhandled promise rejections and throw an error to ensure they are caught during development.
 process.on('unhandledRejection', (error) => {
@@ -31,6 +34,60 @@ const swaggerDocument = YAML.load('./swagger.yaml');
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+/* ********************************
+ * OAuth Setup
+ * ********************************/
+app
+  .use(
+    session({
+      secret: 'secret',
+      resave: false,
+      saveUninitialized: true
+    })
+  )
+  .use(passport.initialize())
+  .use(passport.session());
+
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      callbackURL: process.env.CALLBACK_URL
+    },
+    function (accessToken, refreshToken, profile, done) {
+      return done(null, profile);
+    }
+  )
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+
+app.get('/', (req, res) => {
+  res.send(
+    req.session.user !== undefined
+      ? `Logged in as ${req.session.user.displayName}`
+      : 'Logged Out'
+  );
+});
+
+app.get(
+  '/github/callback',
+  passport.authenticate('github', {
+    failureRedirect: '/api-docs',
+    session: false
+  }),
+  (req, res) => {
+    req.session.user = req.user;
+    res.redirect('/');
+  }
+);
+
 /* *******************************
  * Routes
  * *******************************/
@@ -43,10 +100,11 @@ app
 /* *******************************
  * Error Handler Middleware
  * *******************************/
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.message = err.message || 'Internal Server Error';
-  res.status(err.statusCode).json({});
+  res.status(err.statusCode).json(`${err.statusCode}: ${err.message}`);
 });
 
 /* ********************************
@@ -54,14 +112,14 @@ app.use((err, req, res, next) => {
  * ********************************/
 const port = process.env.PORT || 3000;
 
-/********************************
+/* ********************************
  * Server instance - for testing
- ********************************/
+ * ********************************/
 let server;
 
-/*************************
+/* ********************************
  * Mongodb initialization
- ************************/
+ * ********************************/
 if (require.main === module) {
   mongodb.initDb((err) => {
     if (err) {
@@ -72,8 +130,6 @@ if (require.main === module) {
       });
     }
   });
-} else {
-  server = app.listen(port);
 }
 
 module.exports = { app, server };

@@ -2,7 +2,7 @@
  * Required Resources
  * ******************************/
 const express = require('express');
-const router = require('express').Router();
+const router = express.Router();
 const planetsController = require('../controllers/planets');
 const {
   planetRules,
