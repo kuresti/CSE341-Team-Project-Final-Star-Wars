@@ -54,15 +54,26 @@ app.use((err, req, res, next) => {
  * ********************************/
 const port = process.env.PORT || 3000;
 
-/**
+/********************************
+ * Server instance - for testing
+ ********************************/
+let server;
+
+/*************************
  * Mongodb initialization
- */
-mongodb.initDb((err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    app.listen(port, () => {
-      console.log(`Database is listening and node running on port ${port}`);
-    });
-  }
-});
+ ************************/
+if (require.main === module) {
+  mongodb.initDb((err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      server = app.listen(port, () => {
+        console.log(`Database is listening and node running on port ${port}`);
+      });
+    }
+  });
+} else {
+  server = app.listen(port);
+}
+
+module.exports = { app, server };
