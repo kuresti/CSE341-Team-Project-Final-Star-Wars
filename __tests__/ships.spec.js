@@ -21,7 +21,9 @@ afterAll(async () => {
   if (mongodb.getDatabase) {
     await mongodb.getDatabase().close();
   }
-  server.close();
+  if (server) {
+    server.close();
+  }
 });
 
 /* *******************************

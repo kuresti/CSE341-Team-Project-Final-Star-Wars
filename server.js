@@ -130,8 +130,6 @@ if (require.main === module) {
       });
     }
   });
-} else {
-  server = app.listen(port);
 }
 
 module.exports = { app, server };
