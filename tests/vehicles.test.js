@@ -128,6 +128,14 @@ describe('vehiclesCont.getSingle', () => {
     });
 });
 
+/* **********************************
+ * Test Script for GET getVehicleByAttribute
+ * **********************************/
+// Describe what the function is expected to do
+describe('vehiclesCont.getVehicleByAttribute is expected to return a single vehicle or array of vehicles by attribute name with status 200', async () => {
+    it('')
+})
+
 
 
     
