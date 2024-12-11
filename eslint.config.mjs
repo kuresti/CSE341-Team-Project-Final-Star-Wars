@@ -6,6 +6,15 @@ import eslintPluginPrettier from 'eslint-plugin-prettier';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
+  {
+    ignores: ['node_modules/**'],
+    env: {
+      jest: true,
+    },
+    rules: {
+
+    },
+  },
   pluginJs.configs.recommended,
   {
     files: ["**/*.js"], 
