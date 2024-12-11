@@ -42,12 +42,20 @@ describe('test handlers', function () {
     expect(firstPlanet).toHaveProperty('location');
   });
 
-  test('GET bad ID /planets/674fae819baa535b0d51e79', async () => {
-    const response = await request(app).get('/planets/674fae819baa535b0d51e79');
+  test('GET by ID', async () => {
+    // bad ID
+    const responseBadId = await request(app).get(
+      '/planets/674fae819baa535b0d51e79'
+    );
 
     // Check the status code
-    expect(response.status).toBe(400);
-    expect(response.body.error).toBe('Invalid ID format');
+    expect(responseBadId.status).toBe(400);
+    expect(responseBadId.body.error).toBe('Invalid ID format');
+
+    const responseGoodId = await request(app).get(
+      '/planets/674fae819baa535b0d51e795'
+    );
+    expect(responseGoodId.status).toBe(200);
   });
 
   test('GET bad ID /planets/674fae819baa535b0d51e79', async () => {
