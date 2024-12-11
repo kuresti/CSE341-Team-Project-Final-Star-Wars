@@ -34,13 +34,10 @@ const swaggerDocument = YAML.load('./swagger.yaml');
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-/* *******************************
- * Routes
- * *******************************/
+/* ********************************
+ * OAuth Setup
+ * ********************************/
 app
-  .use(cors())
-  .use(express.json())
-  .use(express.urlencoded({ extended: true }))
   .use(
     session({
       secret: 'secret',
@@ -49,8 +46,7 @@ app
     })
   )
   .use(passport.initialize())
-  .use(passport.session())
-  .use('/', require('./routes/index'));
+  .use(passport.session());
 
 passport.use(
   new GitHubStrategy(
@@ -93,6 +89,15 @@ app.get(
 );
 
 /* *******************************
+ * Routes
+ * *******************************/
+app
+  .use(cors())
+  .use(express.json())
+  .use(express.urlencoded({ extended: true }))
+  .use('/', require('./routes/index'));
+
+/* *******************************
  * Error Handler Middleware
  * *******************************/
 // eslint-disable-next-line no-unused-vars
@@ -107,15 +112,26 @@ app.use((err, req, res, next) => {
  * ********************************/
 const port = process.env.PORT || 3000;
 
-/**
+/* ********************************
+ * Server instance - for testing
+ * ********************************/
+let server;
+
+/* ********************************
  * Mongodb initialization
- */
-mongodb.initDb((err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    app.listen(port, () => {
-      console.log(`Database is listening and node running on port ${port}`);
-    });
-  }
-});
+ * ********************************/
+if (require.main === module) {
+  mongodb.initDb((err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      server = app.listen(port, () => {
+        console.log(`Database is listening and node running on port ${port}`);
+      });
+    }
+  });
+} else {
+  server = app.listen(port);
+}
+
+module.exports = { app, server };

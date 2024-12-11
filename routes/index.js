@@ -32,6 +32,7 @@ router.use('/ships', require('./ships'));
 /* ******************************
  * Login using GitHub OAuth
  * ******************************/
+// eslint-disable-next-line no-unused-vars
 router.get('/login', passport.authenticate('github'), (req, res) => {});
 
 /* ******************************
