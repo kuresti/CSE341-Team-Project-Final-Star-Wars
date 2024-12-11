@@ -1,6 +1,7 @@
 /*****************************************
  * Required Assets
  ****************************************/
+// eslint-disable-next-line no-unused-vars
 const dotenv = require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient;
 
