@@ -173,7 +173,8 @@ const deleteVehicle = async (req, res) => {
   } catch (err) {
     console.error('Error deleting recipe:', err);
     return res.status(500).json({
-      error: 'An error occurred while attempting to delete the vehicle.'
+      error: 'An error occurred while attempting to delete the vehicle.',
+      details: err.message,
     });
   }
 };
