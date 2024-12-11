@@ -145,7 +145,7 @@ const getPlanetByLocation = async (req, res) => {
   const { location } = req.query;
 
   const filter = {
-    location: { $regex: location, $options: 'i' }
+    location: { $regex: location.replace(/\s+/g, '\\s+'), $options: 'i' }
   };
 
   const result = await mongodb

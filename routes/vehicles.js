@@ -4,6 +4,7 @@
 const express = require('express');
 const router = express.Router();
 const vehiclesCont = require('../controllers/vehicles');
+const validate = require('../validation/vehicles')
 const { handleErrors } = require('../middleware/error-handling');
 
 /* **********************************
@@ -18,12 +19,18 @@ router.get('/:id', vehiclesCont.getSingle);
 /* **********************************
  * POST Routes
  * **********************************/
-router.post('/', vehiclesCont.createNewVehicle);
+router.post('/', 
+    validate.vehiclesRules(),
+    validate.validateVehicles,
+    vehiclesCont.createNewVehicle);
 
 /* **********************************
  * PUT Routes
  * **********************************/
-router.put('/:id', vehiclesCont.updateVehicle);
+router.put('/:id',
+    validate.vehiclesRules(),
+    validate.validateVehicles, 
+    vehiclesCont.updateVehicle);
 
 /* ************************************
  * DELETE Vehicle by ID Route

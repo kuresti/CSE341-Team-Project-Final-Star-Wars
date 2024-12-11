@@ -4,17 +4,43 @@
 const express = require('express');
 const router = require('express').Router();
 const planetsController = require('../controllers/planets');
+const {
+  planetRules,
+  validatePlanet,
+  validateObjectId
+} = require('../validation/planetValidation');
 
+/********************************
+ * GET Routes
+ ********************************/
 router.get('/', planetsController.getAllPlanets);
-
-router.get('/:id', planetsController.getPlanet);
 
 router.get('/location', planetsController.getPlanetByLocation);
 
-router.post('/', planetsController.addPlanet);
+router.get('/:id', validateObjectId, planetsController.getPlanet);
 
-router.put('/:id', planetsController.editPlanet);
+/*******************************
+ * POST Route
+ *******************************/
 
-router.delete('/:id', planetsController.deletePlanet);
+router.post('/', planetRules(), validatePlanet, planetsController.addPlanet);
+
+/******************************
+ * PUT Route
+ ******************************/
+
+router.put(
+  '/:id',
+  validateObjectId,
+  planetRules(),
+  validatePlanet,
+  planetsController.editPlanet
+);
+
+/*****************************
+ * DELETE Route
+ *****************************/
+
+router.delete('/:id', validateObjectId, planetsController.deletePlanet);
 
 module.exports = router;
