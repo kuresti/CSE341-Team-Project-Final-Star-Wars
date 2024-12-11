@@ -5,6 +5,10 @@ const express = require('express');
 const router = express.Router();
 const characterController = require('../controllers/characters');
 const { handleErrors } = require('../middleware/error-handling');
+const {
+  characterRules,
+  validateCharacter
+} = require('../validation/characters');
 
 /* **********************************
  * GET Routes
@@ -22,7 +26,12 @@ router.get(
 /* **********************************
  * POST Routes
  * **********************************/
-router.post('/', characterController.createCharacter);
+router.post(
+  '/',
+  characterRules,
+  validateCharacter,
+  characterController.createCharacter
+);
 
 /* **********************************
  * PUT Routes
@@ -30,6 +39,8 @@ router.post('/', characterController.createCharacter);
 router.put(
   '/:id',
   characterController.isValidObjectId,
+  characterRules,
+  validateCharacter,
   characterController.updateCharacter
 );
 
