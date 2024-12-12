@@ -5,6 +5,7 @@ const express = require('express');
 const router = express.Router();
 const characterController = require('../controllers/characters');
 const { handleErrors } = require('../middleware/error-handling');
+const { isAuthenticated } = require('../middleware/authenticate');
 const {
   characterRules,
   validateCharacter
@@ -28,6 +29,7 @@ router.get(
  * **********************************/
 router.post(
   '/',
+  isAuthenticated,
   characterRules,
   validateCharacter,
   characterController.createCharacter
@@ -38,6 +40,7 @@ router.post(
  * **********************************/
 router.put(
   '/:id',
+  isAuthenticated,
   characterController.isValidObjectId,
   characterRules,
   validateCharacter,
@@ -49,6 +52,7 @@ router.put(
  * ************************************/
 router.delete(
   '/:id',
+  isAuthenticated,
   characterController.isValidObjectId,
   characterController.deleteCharacter
 );
