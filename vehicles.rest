@@ -33,7 +33,7 @@ Content-Type: application/json
     "model": "Digger Crawler",
     "manufacturer": "Corellia Mining Corporation",
     "cost_in_credits": "150000",
-    "length": "36.8",
+    "length": "37",
     "max_atmosphering_speed": "30",
     "crew": "66",
     "cargo_capacity": "50000",
