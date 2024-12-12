@@ -39,7 +39,7 @@ router.put(
 /* ************************************
  * DELETE Vehicle by ID Route
  * ************************************/
-router.delete('/', vehiclesCont.deleteVehicle);
+router.delete('/:id', vehiclesCont.deleteVehicle);
 
 router.use(handleErrors);
 module.exports = router;
