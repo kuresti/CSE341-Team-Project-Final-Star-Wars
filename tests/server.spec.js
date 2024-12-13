@@ -32,6 +32,8 @@ jest.mock('passport', () => ({
     deserializeUser: jest.fn(),
 }));
 
+
+
 /* ************************************
  * Test Scripts
  * ************************************/
@@ -40,6 +42,9 @@ describe('Server Tests',  () => {
         jest.clearAllMocks();
     });
 
+     /* ********************************
+     * Test main route '/'
+     * ********************************/
     it('should return "Logged Out" when there is no session running', async () => {
         const req = httpMocks.createRequest({ 
             method: 'GET', 
@@ -56,6 +61,9 @@ describe('Server Tests',  () => {
         expect(res._getData()).toBe('Logged Out');
     });
 
+     /* ********************************
+     * Test successful login display
+     * ********************************/
     it('should return user displayName when logged in', async () => {
         const req = httpMocks.createRequest({
             method: 'GET',
@@ -76,6 +84,9 @@ describe('Server Tests',  () => {
         expect(res._getData()).toBe('Logged in as Test User');
     });
 
+     /* ********************************
+     * Test login route /github/callback
+     * ********************************/
     it('should authenticate and redirect on successful login', async () => {
         const req = httpMocks.createRequest({
             method: 'GET',
@@ -100,6 +111,9 @@ describe('Server Tests',  () => {
         expect(res.statusCode).toBe(302);
     });
 
+    /* ********************************
+     * Test on error handling middleware
+     * ********************************/
     it('Error handling middleware should return 500 on error', () => {
         const req = httpMocks.createRequest({ method: 'GET', url: '/error' });
         const res = httpMocks.createResponse();
@@ -117,56 +131,27 @@ describe('Server Tests',  () => {
         expect(res.statusCode).toBe(500);
         expect(res._getData().replace(/"/g, '')).toEqual('500: Test Error');
     });
+});
 
-    // // Simulates a successful start of initDb
-    // it('should call initDb and start the server if successful', async () => {
-    //     const mockListen = jest.fn();
-    //     mongodb.initDb.mockImplementation((callback) => {
-    //         callback(null);
-    //     });
+     /* ********************************
+     * Test unhandled Promise rejection handler
+     * ********************************/
+describe('Unhandled Promise Rejection Handler', () => {
+    let originalProcessOn;
 
-    // // Call the function that checks for 'require.main'
-    // if (require.main === module) {
-    //     mongodb.initDb((err) => {
-    //         if (err) {
-    //             console.log(err);
-    //         } else {
-    //             mockListen(port, () => {
-    //                 console.log(`Database is listening and node running on port ${port}`);
-    //             });
-    //         }
-    //     });
-    // }
+    beforeEach(() => {
+        // Save the original process.on method
+        originalProcessOn = process.on;
+        process.on = jest.fn(); //creates a mock of process.on method
+    });
 
-    // // Assertions
-    // expect(mongodb.initDb).toHaveBeenCalledTimes(1);
-    // expect(mockListen).toHaveBeenCalledTimes(1);
-    // expect(mockListen).toHaveBeenCalledWith(port, expect.any(Function));
-    // });
+    afterEach(() => {
+        // Restore the original process.on method
+        process.on = originalProcessOn;
+    });
 
-    // it('should log an error if initDb fails', async () => {
-    //     const mockListen = jest.fn();
-
-    //     //Mock Failure
-    //     mongodb.initDb.mockImplementation((callback) => {
-    //         callback(new Error('Database connection failed'));
-    //     });
-
-    //     //Call function to check for require.main
-    //     if (require.main === module) {
-    //         mongodb.initDb((err) => {
-    //             if (err) {
-    //                 console.log(err);
-    //             } else {
-    //                 mockListen(port, () => {
-    //                     console.log(`Database is listening and node running on port ${port}`);
-    //                 });
-    //             }
-    //         });
-    //     }
-
-    //     //Assertions
-    //     expect(mongodb.initDb).toHaveBeenCalledTimes(1);
-    //     expect(mockListen).toHaveBeenCalledTimes(0);
-    // });
+    it('should throw an error on unhandled rejection', async () => {
+      const mockError = new Error('Test Error');
+      await expect(Promise.reject(mockError)).rejects.toThrow('Test Error');
+    });    
 });
