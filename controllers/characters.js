@@ -160,8 +160,8 @@ characterController.updateCharacter = async (req, res) => {
           vehicles: req.body.vehicles,
           ships: req.body.ships
         }
-      );
-
+    );
+    
     if (response.modifiedCount === 0) {
       res.status(404).json('Character not found');
     } else if (response.acknowledged) {

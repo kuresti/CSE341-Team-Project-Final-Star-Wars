@@ -174,7 +174,7 @@ const deleteVehicle = async (req, res) => {
       return res.status(404).json({ error: 'Vehicle not found.' });
     }
   } catch (err) {
-    console.error('Error deleting vehicle:', err);
+    // console.error('Error deleting vehicle:', err);
     return res.status(500).json({
       error: 'An error occurred while attempting to delete the vehicle.',
     });
