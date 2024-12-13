@@ -266,7 +266,7 @@ describe('vehiclesCont.getVehicleByAttribute', () => {
     
             // Mock HTTP req and res
             const req = httpMocks.createRequest({
-                query: { name: 'AT-RT', vehicle_class: 'walker' },
+                query: { name: 'AT-RT', model: 'All Terrain Recon Transport', vehicle_class: 'walker'  },
             });
             const res = httpMocks.createResponse();
     
@@ -280,6 +280,7 @@ describe('vehiclesCont.getVehicleByAttribute', () => {
             expect(mockFind).toHaveBeenCalledWith(
                 expect.objectContaining({ 
                     name: { $regex: 'AT-RT', $options: 'i' }, 
+                    model: { $regex: 'All Terrain Recon Transport', $options: 'i' },
                     vehicle_class: { $regex: 'walker', $options: 'i'},
                 }),
             );
@@ -586,7 +587,169 @@ describe('vehiclesCont.getVehicleByAttribute', () => {
     /* **********************************
      * Test for DELETE route 
      * **********************************/
-    
+    it('should remove a vehicle from the database with a 204 status code on success', async () => {
+        // Creating delete request
+        const req = httpMocks.createRequest({
+            params: { id: '00000001c2bdafe808c3b183' }, 
+        });
+
+        const res = httpMocks.createResponse();
+
+         // Mock database connection
+         const mockDeleteOne = jest.fn().mockResolvedValue({ deletedCount: 1 });
+         const mockDb = {
+                     collection: jest.fn().mockReturnValue({
+                         deleteOne: mockDeleteOne,
+                     }),
+                  };
+                     
+     mongodb.getDatabase.mockReturnValue({
+         db: jest.fn().mockReturnValue(mockDb),
+     });
+
+     // Call to function
+     await vehiclesCont.deleteVehicle(req, res);
+
+     // Assertions
+     expect(mongodb.getDatabase).toHaveBeenCalledTimes(1);
+     expect(mockDb.collection).toHaveBeenCalledWith('vehicle');
+     expect(mockDeleteOne).toHaveBeenCalledWith({ _id: expect.any(Object) });
+     expect(res.statusCode).toBe(204);
+     expect(res._getData()).toBe('');
+    });
+
+    /* **********************************
+     * Test for DELETE route 400 error handling
+     * **********************************/
+    it('should return a 400 error when there is no vehicleID', async () => {
+        const req = httpMocks.createRequest({
+            params: { }
+        });
+
+        const res = httpMocks.createResponse();
+
+        // Mock database connection
+        const mockDeleteOne = jest.fn();
+        const mockDb = {
+                    collection: jest.fn().mockReturnValue({
+                        deleteOne: mockDeleteOne,
+                    }),
+                 };
+                    
+    mongodb.getDatabase.mockReturnValue({
+        db: jest.fn().mockReturnValue(mockDb),
+    });
+
+    // Call Function
+    await vehiclesCont.deleteVehicle(req, res);
+
+    // Assertions
+    expect(res.statusCode).toBe(400);
+    expect(res._getData()).toBe(JSON.stringify({ error: 'Vehicle Id is required' }));
+    expect(mockDeleteOne).not.toHaveBeenCalled();
+    });
+
+    /* **********************************
+     * Test for DELETE route 400 error handling
+     * **********************************/
+    it('should return 400 error status code when an invalid vehicleId is used', async () => {
+        const req = httpMocks.createRequest({
+            params: { id: '1'}
+        });
+
+        const res = httpMocks.createResponse();
+
+        // Mock database connection and response
+        const mockDeleteOne = jest.fn();
+        const mockDb = {
+                    collection: jest.fn().mockReturnValue({
+                        deleteOne: mockDeleteOne,
+                    }),
+        };
+
+        mongodb.getDatabase.mockReturnValue({
+            db: jest.fn().mockReturnValue(mockDb)
+        });
+
+        // Call function
+        await vehiclesCont.deleteVehicle(req, res);
+
+        //Assertions
+        expect(res.statusCode).toBe(400);
+        expect(res._getData()).toBe(JSON.stringify({ error: 'Invalid vehicle ID.' }));
+        expect(mockDeleteOne).not.toHaveBeenCalled();
+    })
+
+    /* **********************************
+     * Test for DELETE route 404 error handling
+     * **********************************/
+    it('should return a 404 error when no vehicle is deleted', async () => {
+        const req = httpMocks.createRequest({
+            params: { id: '00000001c2bdafe808c3b183' }, 
+        })
+
+        const res = httpMocks.createResponse();
+
+         // Mock database connection
+         const mockDeleteOne = jest.fn().mockResolvedValue({ deletedCount: 0 });
+         const mockDb = {
+                     collection: jest.fn().mockReturnValue({
+                         deleteOne: mockDeleteOne,
+                     }),
+                  };
+                     
+     mongodb.getDatabase.mockReturnValue({
+         db: jest.fn().mockReturnValue(mockDb),
+     });
+
+     // Call to function
+     await vehiclesCont.deleteVehicle(req, res);
+
+     // Assertions
+     expect(mongodb.getDatabase).toHaveBeenCalledTimes(1);
+     expect(mockDb.collection).toHaveBeenCalledWith('vehicle');
+     expect(mockDeleteOne).toHaveBeenCalledWith({ _id: expect.any(Object) });
+     expect(res.statusCode).toBe(404);
+     expect(res._getData()).toBe(JSON.stringify({ error:'Vehicle not found.' }));
+    });
+
+      /* **********************************
+     * Test for DELETE route 500 error handling
+     * **********************************/
+      it('should return a 500 status code and error message on failure', async () => {
+        const req = httpMocks.createRequest({
+            params: { id: '00000001c2bdafe808c3b183' },
+        });
+
+        const res = httpMocks.createResponse();
+
+        // Mock database failure
+        const mockDeleteOne = jest.fn().mockResolvedValue(null);
+        const mockDb = {
+                    collection: jest.fn().mockReturnValue({
+                        deleteOne: mockDeleteOne,
+                    }),
+        };
+
+        mongodb.getDatabase.mockReturnValue({
+            db: jest.fn().mockReturnValue(mockDb),
+        });
+
+        // Call function
+        await vehiclesCont.deleteVehicle(req, res);
+
+        // Assertions
+        expect(mongodb.getDatabase).toHaveBeenCalledTimes(1);
+        expect(mockDb.collection).toHaveBeenCalledWith('vehicle');
+        expect(mockDeleteOne).toHaveBeenCalledWith({ _id: expect.any(Object) });
+        expect(res.statusCode).toBe(500);
+        expect(res._getData()).toBe(JSON.stringify({ error: 'An error occurred while attempting to delete the vehicle.' }));
+      });
+
+      
+      
+
+      
 
 
 });
