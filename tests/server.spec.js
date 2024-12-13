@@ -5,7 +5,7 @@ const express = require('express');
 //const app = express();
 const httpMocks = require('node-mocks-http');
 const session = require('express-session');
-const { app } = require('../server');
+const { app, startServer } = require('../server');
 const passport = require('passport');
 const mongodb = require('../config/db');
 
@@ -155,3 +155,6 @@ describe('Unhandled Promise Rejection Handler', () => {
       await expect(Promise.reject(mockError)).rejects.toThrow('Test Error');
     });    
 });
+
+    
+  
