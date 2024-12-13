@@ -1,10 +1,11 @@
 /* ******************************
  * Required assets
  * ******************************/
-const express = require('express');
-const app = express();
 const env = require('dotenv');
 const cors = require('cors');
+const express = require('express');
+const app = express();
+app.use(cors())
 const mongodb = require('./config/db');
 const passport = require('passport');
 const session = require('express-session');
@@ -14,6 +15,7 @@ const GitHubStrategy = require('passport-github2').Strategy;
 process.on('unhandledRejection', (error) => {
   throw error;
 });
+
 
 // Listen for uncaught exceptions and log the error details.
 process.on('uncaughtException', (error) => {
@@ -92,7 +94,7 @@ app.get(
  * Routes
  * *******************************/
 app
-  .use(cors())
+  
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
   .use('/', require('./routes/index'));
@@ -104,7 +106,8 @@ app
 app.use((err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.message = err.message || 'Internal Server Error';
-  res.status(err.statusCode).json(`${err.statusCode}: ${err.message}`);
+  err.details = err.details || null;
+  res.status(err.statusCode).json(`${err.statusCode}: ${err.message}: ${err.details }`);
 });
 
 /* ********************************

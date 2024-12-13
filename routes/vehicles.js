@@ -6,6 +6,7 @@ const router = express.Router();
 const vehiclesCont = require('../controllers/vehicles');
 const validate = require('../validation/vehicles');
 const { handleErrors } = require('../middleware/error-handling');
+const { isAuthenticated } = require('../middleware/authenticate');
 
 /* **********************************
  * GET Routes
@@ -21,6 +22,7 @@ router.get('/:id', vehiclesCont.getSingle);
  * **********************************/
 router.post(
   '/',
+  isAuthenticated,
   validate.vehiclesRules(),
   validate.validateVehicles,
   vehiclesCont.createNewVehicle
@@ -31,6 +33,7 @@ router.post(
  * **********************************/
 router.put(
   '/:id',
+  isAuthenticated,
   validate.vehiclesRules(),
   validate.validateVehicles,
   vehiclesCont.updateVehicle
@@ -39,7 +42,7 @@ router.put(
 /* ************************************
  * DELETE Vehicle by ID Route
  * ************************************/
-router.delete('/', vehiclesCont.deleteVehicle);
+router.delete('/:id', isAuthenticated, vehiclesCont.deleteVehicle);
 
 router.use(handleErrors);
 module.exports = router;

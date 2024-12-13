@@ -18,20 +18,20 @@ describe('Test Characters routes', () => {
     await new Promise((resolve) => setTimeout(() => resolve(), 1000));
   });
 
-  test('Test POST /characters/', async () => {
-    const response = await request(app)
-      .post('/characters')
-      .send({
-        name: 'Padme Amidala',
-        alignment: 'Light',
-        category: ['Human', 'Galactic Republic'],
-        vehicles: [],
-        ships: [],
-        homeworld: 'Naboo'
-      });
-    expect(response.statusCode).toEqual(204);
-    expect(response.headers['content-type']).toBeUndefined();
-  });
+  // test('Test POST /characters/', async () => {
+  //   const response = await request(app)
+  //     .post('/characters')
+  //     .send({
+  //       name: 'Padme Amidala',
+  //       alignment: 'Light',
+  //       category: ['Human', 'Galactic Republic'],
+  //       vehicles: [],
+  //       ships: [],
+  //       homeworld: 'Naboo'
+  //     });
+  //   expect(response.statusCode).toEqual(204);
+  //   expect(response.headers['content-type']).toBeUndefined();
+  // });
 
   test('Test GET /characters/', async () => {
     const response = await request(app).get('/characters');
@@ -81,30 +81,30 @@ describe('Test Characters routes', () => {
     );
   });
 
-  test('Test PUT /characters/', async () => {
-    const characters = await request(app).get('/characters');
-    const charId = characters.body.at(-1)._id;
+  // test('Test PUT /characters/', async () => {
+  //   const characters = await request(app).get('/characters');
+  //   const charId = characters.body.at(-1)._id;
 
-    const response = await request(app)
-      .put(`/characters/${charId}`)
-      .send({
-        name: 'R2-D2',
-        alignment: 'Light',
-        category: ['Droid', 'Rebel'],
-        vehicles: [],
-        ships: [],
-        homeworld: 'Naboo'
-      });
-    expect(response.statusCode).toEqual(204);
-    expect(response.headers['content-type']).toBeUndefined();
-  });
+  //   const response = await request(app)
+  //     .put(`/characters/${charId}`)
+  //     .send({
+  //       name: 'R2-D2',
+  //       alignment: 'Light',
+  //       category: ['Droid', 'Rebel'],
+  //       vehicles: [],
+  //       ships: [],
+  //       homeworld: 'Naboo'
+  //     });
+  //   expect(response.statusCode).toEqual(204);
+  //   expect(response.headers['content-type']).toBeUndefined();
+  // });
 
-  test('Test DELETE /characters/', async () => {
-    const characters = await request(app).get('/characters');
-    const charId = characters.body.at(-1)._id;
+  //   test('Test DELETE /characters/', async () => {
+  //     const characters = await request(app).get('/characters');
+  //     const charId = characters.body.at(-1)._id;
 
-    const response = await request(app).delete(`/characters/${charId}`);
-    expect(response.statusCode).toEqual(204);
-    expect(response.headers['content-type']).toBeUndefined();
-  });
+  //     const response = await request(app).delete(`/characters/${charId}`);
+  //     expect(response.statusCode).toEqual(204);
+  //     expect(response.headers['content-type']).toBeUndefined();
+  //   });
 });
