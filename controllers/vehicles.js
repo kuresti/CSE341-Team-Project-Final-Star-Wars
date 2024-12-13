@@ -177,7 +177,6 @@ const deleteVehicle = async (req, res) => {
     console.error('Error deleting vehicle:', err);
     return res.status(500).json({
       error: 'An error occurred while attempting to delete the vehicle.',
-      details: err.message,
     });
   }
 };
