@@ -1,6 +1,3 @@
-/************************
- * Required Resources
- ************************/
 const request = require('supertest');
 const { app, server } = require('../server');
 const mongodb = require('../config/db');

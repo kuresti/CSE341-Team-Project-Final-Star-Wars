@@ -95,6 +95,11 @@ paths:
       tags:
         - Characters
       description: Update an existing Star Wars Character
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
       requestBody:
         description: Character object to add
         content:
@@ -286,6 +291,11 @@ paths:
       tags:
         - Planets
       description: Updates the details of an existing planet in the database using its unique ID and the data provided in the request body
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
       requestBody:
         description: Planet object to add
         content:
@@ -407,6 +417,11 @@ paths:
       tags:
         - Vehicles
       description: Updates vehicle and its attributes by the vehicle id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
       requestBody:
         description: Vehicle object to add
         content:
@@ -691,7 +706,7 @@ components:
           example: 149999
         length:
           type: number
-          example: 12.5
+          example: 12
         max_atmosphering_speed:
           type: number
           example: 1050

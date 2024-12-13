@@ -104,12 +104,12 @@ const createNewVehicle = async (req, res) => {
     .db()
     .collection('vehicle')
     .insertOne(newVehicle);
-  if (response.acknowledged) {
+  if (response && response.acknowledged) {
     res.status(204).send();
   } else {
     res
       .status(500)
-      .json(response.error || 'An error occurred while creating a vehicle');
+      .json((response && response.error)|| 'An error occurred while creating a vehicle');
   }
 };
 
@@ -137,12 +137,12 @@ const updateVehicle = async (req, res) => {
     .db()
     .collection('vehicle')
     .replaceOne({ _id: vehicleId }, vehicle);
-  if (response) {
+  if (response && response.acknowledged) {
     res.status(204).send();
   } else {
     res
       .status(500)
-      .json(response.error || 'An error occurred while updating the vehicle.');
+      .json((response && response.error) || 'An error occurred while updating the vehicle.');
   }
 };
 
@@ -156,6 +156,9 @@ const deleteVehicle = async (req, res) => {
   try {
     //validate vehicleId
     const vehicleId = req.params.id;
+    if(!vehicleId) {
+      return res.status(400).json({ error: 'Vehicle Id is required'});
+    }
     if (!ObjectId.isValid(vehicleId)) {
       return res.status(400).json({ error: 'Invalid vehicle ID.' });
     }
@@ -168,15 +171,16 @@ const deleteVehicle = async (req, res) => {
     if (response.deletedCount > 0) {
       res.status(204).send();
     } else {
-      return res.status(400).json({ error: 'Vehicle not found.' });
+      return res.status(404).json({ error: 'Vehicle not found.' });
     }
   } catch (err) {
-    console.error('Error deleting recipe:', err);
+    console.error('Error deleting vehicle:', err);
     return res.status(500).json({
-      error: 'An error occurred while attempting to delete the vehicle.'
+      error: 'An error occurred while attempting to delete the vehicle.',
     });
   }
 };
+
 
 module.exports = {
   getAll,
