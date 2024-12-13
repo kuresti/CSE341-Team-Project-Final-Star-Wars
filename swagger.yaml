@@ -61,6 +61,10 @@ paths:
       responses:
         204:
           description: No Content
+        400:
+          description: Bad Request
+        401:
+          $ref: '#/components/responses/Unauthorized'
         500:
           description: An error occurred while creating the character
   /characters/{id}:
@@ -119,6 +123,10 @@ paths:
       responses:
         204:
           description: No Content
+        400:
+          description: Bad Request
+        401:
+          $ref: '#/components/responses/Unauthorized'
         404:
           description: Character not found
         500:
@@ -135,6 +143,8 @@ paths:
       responses:
         204:
           description: No Content
+        401:
+          $ref: '#/components/responses/Unauthorized'
         404:
           description: Character not found
         500:
@@ -245,24 +255,28 @@ paths:
                 items:
                   $ref: '#/components/schemas/Planet'
     post:
-        tags:
-          - Planets
-        description: Inserts a new planet into the database using the data provided in the request body
-        requestBody:
-          description: Planet object to add
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Planet'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Planet'
-          required: true
-        responses:
-          204:
-            description: No Content
-          500:
-            description: Some error occurred while adding a new planet
+      tags:
+        - Planets
+      description: Inserts a new planet into the database using the data provided in the request body
+      requestBody:
+        description: Planet object to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Planet'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Planet'
+        required: true
+      responses:
+        204:
+          description: No Content
+        400:
+          description: Bad Request
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          description: Some error occurred while adding a new planet
   /planets/{id}:
     get:
       tags:
@@ -309,6 +323,10 @@ paths:
       responses:
         204:
           description: No Content
+        400:
+          description: Bad Request
+        401:
+          $ref: '#/components/responses/Unauthorized'
         500:
           description: Some error occurred while updating a new planet
     delete:
@@ -323,6 +341,8 @@ paths:
       responses:
         204:
           description: No Content
+        401:
+          $ref: '#/components/responses/Unauthorized'
         500:
           description: Some error occurred while deleting a new planet
   /planets/location/:
@@ -371,24 +391,30 @@ paths:
                 items:
                   $ref: '#/components/schemas/Vehicles'
     post:
-        tags:
-          - Vehicles
-        description: Adds a new vehicle with attributes to the database
-        requestBody:
-          description: Vehicle object to add
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Vehicles'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Vehicles'
-          required: true
-        responses:
-          204:
-            description: OK
-          500:
-            description: An error occurred while creating a new vehicle
+      tags:
+        - Vehicles
+      description: Adds a new vehicle with attributes to the database
+      requestBody:
+        description: Vehicle object to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehicles'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Vehicles'
+        required: true
+      responses:
+        204:
+          description: OK
+        400:
+          description: Bad Request
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        422:
+          description: Unprocessable Entity
+        500:
+          description: An error occurred while creating a new vehicle
   /vehicles/{id}:
     get:
       tags:
@@ -435,9 +461,14 @@ paths:
       responses:
         204:
           description: No Content
+        400:
+          description: Bad Request
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        422:
+          description: Unprocessable Entity
         500:
           description: An error occurred while updating the vehicle
-    
     delete:
       tags:
         - Vehicles
@@ -452,6 +483,8 @@ paths:
           description: No Content
         400:
           description: Vehicle not found
+        401:
+          $ref: '#/components/responses/Unauthorized'
         500:
           description: An error occurred while attempting to delete the vehicle
   /vehicles/search/:
@@ -531,6 +564,10 @@ paths:
       responses:
         201:
           description: Acknowledged
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        422:
+          description: Unprocessable Entity
         500:
           description: An error occurred while adding the ship
   /ships/{id}:
@@ -583,6 +620,10 @@ paths:
           description: No Content
         400:
           description: Must use a valid id to find ship
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        422:
+          description: Unprocessable Entity
         500:
           description: An error occurred while updating the ship
     delete:
@@ -599,6 +640,8 @@ paths:
           description: No Content
         400:
           description: Must use a valid id to find ship
+        401:
+          $ref: '#/components/responses/Unauthorized'
         500:
           description: An error occurred while deleting the ship
   /ships/search/:
@@ -631,8 +674,10 @@ paths:
                   $ref: '#/components/schemas/Ships'
 
 
-
 components:
+  responses:
+    Unauthorized:
+      description: Unauthorized
   schemas:
     Character:
       type: object
@@ -661,6 +706,7 @@ components:
           items:
             type: string
           example: ["X-wing"]
+  
     Planet:
       type: object
       properties:
