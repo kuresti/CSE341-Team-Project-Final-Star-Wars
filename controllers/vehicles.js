@@ -104,12 +104,12 @@ const createNewVehicle = async (req, res) => {
     .db()
     .collection('vehicle')
     .insertOne(newVehicle);
-  if (response.acknowledged) {
+  if (response && response.acknowledged) {
     res.status(204).send();
   } else {
     res
       .status(500)
-      .json(response.error || 'An error occurred while creating a vehicle');
+      .json((response && response.error)|| 'An error occurred while creating a vehicle');
   }
 };
 
@@ -137,12 +137,12 @@ const updateVehicle = async (req, res) => {
     .db()
     .collection('vehicle')
     .replaceOne({ _id: vehicleId }, vehicle);
-  if (response) {
+  if (response && response.acknowledged) {
     res.status(204).send();
   } else {
     res
       .status(500)
-      .json(response.error || 'An error occurred while updating the vehicle.');
+      .json((response && response.error) || 'An error occurred while updating the vehicle.');
   }
 };
 
