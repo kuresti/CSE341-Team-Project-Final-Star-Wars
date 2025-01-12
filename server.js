@@ -106,8 +106,12 @@ app
 app.use((err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.message = err.message || 'Internal Server Error';
-  err.details = err.details || null;
-  res.status(err.statusCode).json(`${err.statusCode}: ${err.message}: ${err.details }`);
+
+  const responseMessage = err.details
+  ? `${err.statusCode}: ${err.message}: ${err.details}`
+  : `${err.statusCode}: ${err.message}`;
+
+  res.status(err.statusCode).json(responseMessage);
 });
 
 /* ********************************
@@ -123,6 +127,7 @@ let server;
 /* ********************************
  * Mongodb initialization
  * ********************************/
+
 if (require.main === module) {
   mongodb.initDb((err) => {
     if (err) {
